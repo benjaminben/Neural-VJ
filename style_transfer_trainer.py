@@ -223,7 +223,6 @@ class StyleTransferTrainer:
 
         while epoch < self.num_epochs:
             while iterations * self.batch_size < num_examples:
-
                 curr = iterations * self.batch_size
                 step = curr + self.batch_size
                 x_batch = np.zeros(self.batch_shape, dtype=np.float32)
@@ -231,6 +230,7 @@ class StyleTransferTrainer:
                     x_batch[j] = utils.get_img(img_p, (256, 256, 3)).astype(np.float32)
 
                 iterations += 1
+                t_its = iterations * self.batch_size
 
                 assert x_batch.shape[0] == self.batch_size
 
@@ -238,7 +238,7 @@ class StyleTransferTrainer:
                     [train_op, merged_summary_op, self.L_total, self.L_content, self.L_style, self.L_tv, global_step],
                     feed_dict={self.y_c: x_batch, self.y_s: self.y_s0})
 
-                print('epoch : %d, iter : %4d, ' % (epoch, step),
+                print('epoch : %d, iter : %4d, pct: %4d' % (epoch, step, int(t_its/num_examples*100)),
                       'L_total : %g, L_content : %g, L_style : %g, L_tv : %g' % (L_total, L_content, L_style, L_tv))
 
                 # write logs at every iteration

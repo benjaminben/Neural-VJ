@@ -1,0 +1,6 @@
+content_base_dir = "/path/to/content/dir/"
+style_base_dir = "/path/to/styles/dir/"
+model_base_dir = "/path/to/models/dir/"
+output_base_dir = "/path/to/destination/dir/"
+pre_trained_model_dir = "/path/to/pre_trained_model/parent/"
+trainDB_path = "/path/to/trainDB/parent/"

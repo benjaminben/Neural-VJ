@@ -4,6 +4,7 @@ import utils
 import style_transfer_tester
 import argparse
 import time
+import config as cfg
 
 """parsing and configuration"""
 def parse_args():
@@ -21,10 +22,16 @@ def parse_args():
 
     parser.add_argument('--max_size', type=int, default=None, help='The maximum width or height of input images')
 
+    parser.add_argument('--use_absolute', type=bool, default=False, help='Whether to use absolute paths or relative to config')
+
     return check_args(parser.parse_args())
 
 """checking arguments"""
 def check_args(args):
+    if args.use_absolute == False:
+        args.style_model = cfg.model_base_dir + args.style_model
+        args.output = cfg.output_base_dir + args.output
+        args.content = cfg.content_base_dir + args.content
     # --style_model
     try:
         #Tensorflow r0.12 requires 3 files related to *.ckpt
@@ -71,7 +78,7 @@ def main():
 
     # load content image
     content_image = utils.load_image(args.content, max_size=args.max_size)
-
+    print('SHAPE : ', content_image.shape)
     # open session
     soft_config = tf.ConfigProto(allow_soft_placement=True)
     soft_config.gpu_options.allow_growth = True # to deal with large image

@@ -24,6 +24,10 @@ def list_files(in_path):
         break
     return files
 
+def get_frames(img_dir):
+    files = list_files(img_dir)
+    return files
+
 """Helper-functions for image manipulation"""
 # borrowed from https://github.com/Hvass-Labs/TensorFlow-Tutorials/blob/master/15_Style_Transfer.ipynb
 

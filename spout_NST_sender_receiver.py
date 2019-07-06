@@ -24,7 +24,7 @@ def parse_args():
 
     parser.add_argument('--spout_size', nargs = 2, type=int, default=[640, 480], help='Width and height of the spout receiver and sender')   
 
-    parser.add_argument('--spout_name', type=str, default='Composition - Resolume Arena', help='Spout receiving name - the name of the sender you want to receive')  
+    parser.add_argument('--spout_name', type=str, default='touchdesigner', help='Spout receiving name - the name of the sender you want to receive')  
 
     parser.add_argument('--window_size', nargs = 2, type=int, default=[640, 480], help='Width and height of the window')    
 
