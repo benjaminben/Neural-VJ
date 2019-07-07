@@ -13,10 +13,10 @@ def parse_args():
     desc = "Tensorflow implementation of 'Image Style Transfer Using Convolutional Neural Networks"
     parser = argparse.ArgumentParser(description=desc)
 
-    parser.add_argument('--vgg_model', type=str, default='pre_trained_model', help='The directory where the pre-trained model was saved')
-    parser.add_argument('--trainDB_path', type=str, default='train2014', help='The directory where MSCOCO DB was saved')
-    parser.add_argument('--style', type=str, default='style/wave.jpg', help='File path of style image (notation in the paper : a)', required=True)
-    parser.add_argument('--output', type=str, default='model/wave', help='File path for trained-model. Train-log is also saved here.', required=True)
+    parser.add_argument('--vgg_model', type=str, default=cfg.train['vgg_model'], help='The directory where the pre-trained model was saved')
+    parser.add_argument('--trainDB_path', type=str, default=cfg.train['trainDB_path'], help='The directory where MSCOCO DB was saved')
+    parser.add_argument('--style', type=str, default=cfg.train['style'], help='File path of style image (notation in the paper : a)')
+    parser.add_argument('--output', type=str, default=cfg.train['output'], help='File path for trained-model. Train-log is also saved here.')
 	
     parser.add_argument('--content_weight', type=float, default=7.5e0, help='Weight of content-loss')
     parser.add_argument('--style_weight', type=float, default=5e2, help='Weight of style-loss')
@@ -36,25 +36,15 @@ def parse_args():
 
     parser.add_argument('--checkpoint_every', type=int, default=1000, help='save a trained model every after this number of iterations')
 
-    parser.add_argument('--test', type=str, default=None,
+    parser.add_argument('--test', type=str, default=cfg.train['test'],
                         help='File path of content image (notation in the paper : x)')
 
     parser.add_argument('--max_size', type=int, default=None, help='The maximum width or height of input images')
-
-    parser.add_argument('--use_absolute', type=bool, default=False, help='Whether to use absolute paths or relative to config')
 
     return check_args(parser.parse_args())
 
 """checking arguments"""
 def check_args(args):
-    if args.use_absolute == False:
-        args.style = cfg.style_base_dir + args.style
-        args.output = cfg.model_base_dir + args.output
-        args.trainDB_path = cfg.trainDB_path + args.trainDB_path
-        args.vgg_model = cfg.pre_trained_model_dir + args.vgg_model
-        if args.test is not None:
-            args.test = cfg.content_base_dir + args.test
-
     # --vgg_model
     model_file_path = args.vgg_model + '/' + vgg19.MODEL_FILE_NAME
     try:

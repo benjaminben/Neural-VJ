@@ -11,27 +11,20 @@ def parse_args():
     desc = "Tensorflow implementation of 'Perceptual Losses for Real-Time Style Transfer and Super-Resolution'"
     parser = argparse.ArgumentParser(description=desc)
 
-    parser.add_argument('--style_model', type=str, default='models/wave.ckpt', help='location for model file (*.ckpt)',
-                        required=True)
+    parser.add_argument('--style_model', type=str, default=cfg.test['style_model'], help='location for model file (*.ckpt)')
 
-    parser.add_argument('--content', type=str, default='content/female_knight.jpg',
-                        help='File path of content image (notation in the paper : x)', required=True)
+    parser.add_argument('--content', type=str, default=cfg.test['content'],
+                        help='File path of content image (notation in the paper : x)')
 
-    parser.add_argument('--output', type=str, default='result.jpg',
-                        help='File path of output image (notation in the paper : y_c)', required=True)
+    parser.add_argument('--output', type=str, default=cfg.test['output'],
+                        help='File path of output image (notation in the paper : y_c)')
 
     parser.add_argument('--max_size', type=int, default=None, help='The maximum width or height of input images')
-
-    parser.add_argument('--use_absolute', type=bool, default=False, help='Whether to use absolute paths or relative to config')
 
     return check_args(parser.parse_args())
 
 """checking arguments"""
 def check_args(args):
-    if args.use_absolute == False:
-        args.style_model = cfg.model_base_dir + args.style_model
-        args.output = cfg.output_base_dir + args.output
-        args.content = cfg.content_base_dir + args.content
     # --style_model
     try:
         #Tensorflow r0.12 requires 3 files related to *.ckpt
